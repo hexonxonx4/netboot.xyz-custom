@@ -13,7 +13,7 @@ set dir ${mirror}/${base_dir}/dists/${ubuntu_version}/main/installer-${arch}/cur
 
 :custom
 clear custom_choice
-menu This is a Test Menu 1525
+menu This is a Test Menu 1527
 item --gap This is the first sub menu
 item option_one ${space} Loading a kernel and initrd
 item option_two ${space} Loading an ISO
