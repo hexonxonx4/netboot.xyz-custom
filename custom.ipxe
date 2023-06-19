@@ -20,7 +20,7 @@ goto custom_exit
 :option_one
 kernel http://github.com/netbootxyz/ubuntu-squash/releases/download/22.04.2-7d91a596/vmlinuz
 initrd http://github.com/netbootxyz/ubuntu-squash/releases/download/22.04.2-7d91a596/initrd
-imgargs root=/dev/ram0 ramdisk_size=1500000 vmlinuz video=HDMI-A-1:1920x1080@60_ quiet
+imgargs vmlinuz root=/dev/ram0 ramdisk_size=1500000 vmlinuz video=HDMI-A-1:1920x1080@60_ quiet
 boot || goto custom_exit
 
 :option_two
