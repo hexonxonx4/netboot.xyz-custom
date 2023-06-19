@@ -3,9 +3,17 @@
 ### netboot.xyz-custom menu
 ###
 
+set install_params auto=true priority=critical
+set mirror http://archive.ubuntu.com
+set base_dir ubuntu
+set ubuntu_version jammy
+set arch amd64
+set mirrorcfg mirror/suite=${ubuntu_version}
+set dir ${mirror}/${base_dir}/dists/${version}/main/installer-${arch}/current/images/netboot
+
 :custom
 clear custom_choice
-menu This is a Test Menu 1512
+menu This is a Test Menu 1525
 item --gap This is the first sub menu
 item option_one ${space} Loading a kernel and initrd
 item option_two ${space} Loading an ISO
@@ -17,10 +25,8 @@ goto ${custom_choice}
 goto custom_exit
 
 :option_one
-
-kernel http://github.com/netbootxyz/ubuntu-squash/releases/download/22.04.2-7d91a596/vmlinuz root=/dev/ram0 ramdisk_size=1500000 url=https://boot/netboot.xyz/memdisk video=HDMI-A-1:1920x1080@60_ quiet
-initrd http://github.com/netbootxyz/ubuntu-squash/releases/download/22.04.2-7d91a596/initrd
-imgargs vmlinuz root=/dev/ram0 ramdisk_size=1500000 ip=dhcp url= video=HDMI-A-1:1920x1080@60_ quiet
+kernel ${dir}/linux ${install_params} ${mirrorcfg} -- quiet initrd=initrd.gz video=HDMI-A-1:1920x1080@60_
+initrd ${dir}/initrd.gz
 boot || goto custom_exit
 
 :option_two
