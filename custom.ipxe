@@ -1,43 +1,37 @@
 #!ipxe
 ###
-### netboot.xyz-custom menu
+### netboot.xyz-custom menu example
 ###
-
-set install_params auto=true priority=critical
-set mirror http://archive.ubuntu.com
-set base_dir ubuntu
-set ubuntu_version jammy
-set arch amd64
-set mirrorcfg mirror/suite=${ubuntu_version}
-set dir ${mirror}/${base_dir}/dists/${ubuntu_version}/main/installer-${arch}/current/images/netboot
+set server_ip 192.168.44.100
+set root_path /pxeboot
 
 :custom
 clear custom_choice
-menu This is a Test Menu 1633
-item --gap This is the first sub menu
-item option_one ${space} Loading a kernel and initrd
-item option_two ${space} Loading an ISO
-item --gap This is a second sub menu
-item option_three ${space} Loads another custom sub menu
+menu Mind in a Box - netboot.xyz
+item --gap Logistik Unicorp
+item jammy-svr ${space} Install Ubuntu Server 22.04.4 LTS (Jammy)
+item focal-svr ${space} Install Ubuntu Server 20.04.6 LTS (Focal)
+### item --gap This is a second sub menu
+### item option_three ${space} Loads another custom sub menu
+### item option_four ${space} This is option four
 choose custom_choice || goto custom_exit
 echo ${cls}
 goto ${custom_choice}
 goto custom_exit
 
-:option_one
-kernel http://github.com/netbootxyz/ubuntu-squash/releases/download/22.04.2-7d91a596/vmlinuz
-initrd http://github.com/netbootxyz/ubuntu-squash/releases/download/22.04.2-7d91a596/initrd
-imgargs vmlinuz root=/dev/ram0 ramdisk_size=1500000 ip=dhcp url=http://172.24.44.111/ubuntu-22.04.2-live-server-amd64.iso
+:focal-svr
+set os_root os-images/ubuntu-20.04.6-live-server-amd64
+kernel tftp://${server_ip}/${os_root}/casper/vmlinuz
+initrd tftp://${server_ip}/${os_root}/casper/initrd
+imgargs vmlinuz initrd=initrd boot=casper maybe-ubiquity ip=dhcp netboot=nfs nfsroot=${server_ip}:${root_path}/${os_root} quiet splash ---
 boot || goto custom_exit
 
-:option_two
-kernel https://boot.netboot.xyz/memdisk raw iso
-initrd http://172.24.44.111/ubuntu-22.04.2-live-server-amd64.iso
+:jammy-svr
+set os_root os-images/ubuntu-22.04.4-live-server-amd64
+kernel tftp://${server_ip}/${os_root}/casper/vmlinuz
+initrd tftp://${server_ip}/${os_root}/casper/initrd
+imgargs vmlinuz initrd=initrd boot=casper maybe-ubiquity ip=dhcp netboot=nfs nfsroot=${server_ip}:${root_path}/${os_root} quiet splash ---
 boot || goto custom_exit
-
-:option_three
-echo Chains into another menu...
-chain https://raw.githubusercontent.com/${github_user}/netboot.xyz-custom/master/custom1.ipxe || goto custom
 
 :custom_exit
 chain utils.ipxe
