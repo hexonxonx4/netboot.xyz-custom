@@ -2,8 +2,7 @@
 ###
 ### netboot.xyz-custom menu example
 ###
-set server_ip 192.168.44.100
-set root_path /pxeboot
+set url http://192.168.44.100
 
 :custom
 clear custom_choice
@@ -20,15 +19,15 @@ goto ${custom_choice}
 goto custom_exit
 
 :focal-svr
-set os_root os-images/ubuntu-20.04.6-live-server-amd64
+set os_root os-images/2004
 kernel tftp://${server_ip}/${os_root}/casper/vmlinuz root=/dev/ram0 ramdisk_size=1500000 netboot=nfs nfsroot=${server_ip}:${root_path}/${os_root} quiet splash ---
 initrd tftp://${server_ip}/${os_root}/casper/initrd
 boot || goto custom_exit
 
 :jammy-svr
-set os_root os-images/ubuntu-22.04.4-live-server-amd64
-kernel tftp://${server_ip}/${os_root}/casper/vmlinuz root=/dev/ram0 ramdisk_size=1500000 netboot=nfs nfsroot=${server_ip}:${root_path}/${os_root} quiet splash ---
-initrd tftp://${server_ip}/${os_root}/casper/initrd
+set os_root os-images/2204
+kernel ${url}/${os_root}/vmlinuz ip=dhcp url=${url}/${os_root}/ubuntu-22.04.4-live-server-amd64.iso initrd=initrd
+initrd ${url}/${os_root}/initrd
 boot || goto custom_exit
 
 :custom_exit
