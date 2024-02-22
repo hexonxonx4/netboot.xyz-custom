@@ -26,7 +26,7 @@ boot || goto custom_exit
 
 :jammy-svr
 set os_root os-images/2204
-kernel ${url}/${os_root}/vmlinuz ip=dhcp url=${url}/${os_root}/ubuntu-22.04.4-live-server-amd64.iso initrd=initrd root=/dev/ram0
+kernel ${url}/${os_root}/vmlinuz initrd=initrd ip=dhcp url=${url}/${os_root}/ubuntu-22.04.4-live-server-amd64.iso initrd=initrd rootflags=loop root=/dev/ram0 ramdisk_size=1500000 rootfstype=auto
 initrd ${url}/${os_root}/initrd
 boot || goto custom_exit
 
