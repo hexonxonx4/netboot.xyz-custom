@@ -23,14 +23,14 @@ goto custom_exit
 set os_root os-images/ubuntu-20.04.6-live-server-amd64
 kernel tftp://${server_ip}/${os_root}/casper/vmlinuz
 initrd tftp://${server_ip}/${os_root}/casper/initrd
-imgargs vmlinuz initrd=initrd.magic boot=casper maybe-ubiquity ip=dhcp netboot=nfs nfsroot=${server_ip}:${root_path}/${os_root} quiet splash ---
+imgargs vmlinuz initrd=initrd.magic boot=casper maybe-ubiquity ip=dhcp root=/dev/ram0 netboot=nfs nfsroot=${server_ip}:${root_path}/${os_root} quiet splash ---
 boot || goto custom_exit
 
 :jammy-svr
 set os_root os-images/ubuntu-22.04.4-live-server-amd64
 kernel tftp://${server_ip}/${os_root}/casper/vmlinuz
 initrd tftp://${server_ip}/${os_root}/casper/initrd
-imgargs vmlinuz initrd=initrd.magic boot=casper maybe-ubiquity ip=dhcp netboot=nfs nfsroot=${server_ip}:${root_path}/${os_root} quiet splash ---
+imgargs vmlinuz initrd=initrd.magic boot=casper maybe-ubiquity ip=dhcp root=/dev/ram0 netboot=nfs nfsroot=${server_ip}:${root_path}/${os_root} quiet splash ---
 boot || goto custom_exit
 
 :custom_exit
