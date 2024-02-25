@@ -14,11 +14,11 @@ menu Ubuntu - amd64
 item jammy Install Ubuntu 22.04 LTS Jammy Jellyfish
 item focal Install Ubuntu 20.04 LTS Focal Fossa (Subiquity)
 choose ubuntu_version || goto ubuntu_exit
+iseq ${ubuntu_version} jammy && { set version_url 2204; set version_number 22.04.4 } ||
+iseq ${ubuntu_version} focal && { set version_url 2004; set version_number 20.04.6 } ||
 goto sub_boot
 
 :sub_boot
-iseq ${ubuntu_version} jammy && { set version_url 2204; set version_number 22.04.4 } ||
-iseq ${ubuntu_version} focal && { set version_url 2004; set version_number 20.04.6 } ||
 set install_url http://192.168.44.100/os-images/${version_url}/
 imgfree
 set ubuntu_iso_url ${install_url}ubuntu-${version_number}-live-server-amd64.iso ||
